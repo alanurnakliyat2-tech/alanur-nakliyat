@@ -1,159 +1,384 @@
-
 <!DOCTYPE html>
 <html lang="tr">
- <style>
-.btn {
-    display: inline-block;
-    background: #f5a623;
-    color: white;
-    padding: 14px 24px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 30px;
-}
- </style>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Jiyan Nakliyat | Türkiye Geneli</title>
-<meta name="description" content="Alanur Nakliyat ile Türkiye genelinde evden eve, asansörlü, şehirler arası ve ofis taşımacılığı.">
+
+<meta name="description" content="Jiyan Nakliyat ile Türkiye genelinde evden eve, asansörlü, şehirler arası ve ofis taşımacılığı.">
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:Arial,sans-serif;color:#17243a;line-height:1.6}
-header{background:#102a56;color:white;padding:18px 7%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.logo{font-size:23px;font-weight:bold}
-nav a{color:white;text-decoration:none;margin-left:20px;font-size:14px}
-.hero{background:linear-gradient(120deg,#102a56,#24599a);color:white;padding:100px 7%;text-align:center}
-.hero h1{font-size:clamp(35px,6vw,55px);margin-bottom:18px}
-.hero p{font-size:18px;margin-top:25px;margin-bottom:28px}
-.btn{display:inline-block;background:#fff;color:#102a56;padding:13px 24px;border-radius:8px;text-decoration:none;font-weight:bold}
-section{padding:70px 7%}
-h2{text-align:center;color:#102a56;font-size:32px;margin-bottom:35px}
-.services{background:#f3f6fb}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
-.card{background:white;padding:28px 22px;border-radius:13px;text-align:center;box-shadow:0 5px 20px #102a5610}
-.card .icon{font-size:38px;margin-bottom:12px}
-.card h3{color:#102a56;margin-bottom:10px}
-.about{text-align:center;max-width:850px;margin:auto}
-.about p{color:#526176;font-size:17px}
-.banner{background:#102a56;color:white;text-align:center;padding:65px 7%}
-.banner h2{color:white}
-.banner p{margin-bottom:20px}
-.contact{text-align:center}
-.contact p{margin:12px;color:#526176}
-footer{background:#091b37;color:white;text-align:center;padding:25px}
-@media(max-width:600px){
- header{justify-content:center;text-align:center}
- nav a{margin:0 8px}
- .hero{padding:75px 6%}
- section{padding:55px 6%}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #17243a;
+    line-height: 1.6;
+}
+
+header {
+    background: #102a56;
+    color: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.hero {
+    background: linear-gradient(120deg, #102a56, #24599a);
+    color: white;
+    padding: 100px 7%;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(35px, 6vw, 55px);
+    margin-bottom: 18px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin: 25px 0 28px;
+}
+
+.btn {
+    display: inline-block;
+    background: white;
+    color: #102a56;
+    padding: 13px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 8px;
+}
+
+section {
+    padding: 70px 7%;
+}
+
+h2 {
+    text-align: center;
+    color: #102a56;
+    font-size: 32px;
+    margin-bottom: 35px;
+}
+
+.services {
+    background: #f3f6fb;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 28px 22px;
+    border-radius: 13px;
+    text-align: center;
+    box-shadow: 0 5px 20px #102a5610;
+}
+
+.card .icon {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.card h3 {
+    color: #102a56;
+    margin-bottom: 10px;
+}
+
+.about {
+    text-align: center;
+    max-width: 850px;
+    margin: auto;
+}
+
+.about p {
+    color: #526176;
+    font-size: 17px;
+}
+
+.banner {
+    background: #102a56;
+    color: white;
+    text-align: center;
+    padding: 65px 7%;
+}
+
+.banner h2 {
+    color: white;
+}
+
+.banner p {
+    margin-bottom: 20px;
+}
+
+.reviews {
+    background: #fff7e9;
+    text-align: center;
+}
+
+.review-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.review-card {
+    background: white;
+    padding: 28px 22px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px #102a5610;
+}
+
+.review-card h3 {
+    color: #102a56;
+    margin-bottom: 12px;
+}
+
+.review-card p {
+    color: #526176;
+}
+
+.review-stars {
+    color: #f5a623;
+    font-size: 23px;
+    margin-bottom: 12px;
+}
+
+.contact {
+    text-align: center;
+}
+
+.contact p {
+    margin: 12px;
+    color: #526176;
+}
+
+footer {
+    background: #091b37;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+.floating-btn {
+    position: fixed;
+    right: 20px;
+    color: white;
+    padding: 15px 22px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 4px 12px #0004;
+}
+
+.whatsapp {
+    bottom: 20px;
+    background: #25D366;
+}
+
+.phone {
+    bottom: 85px;
+    background: #1565c0;
+}
+
+@media(max-width: 600px) {
+    header {
+        justify-content: center;
+        text-align: center;
+    }
+
+    nav a {
+        margin: 0 8px;
+    }
+
+    .hero {
+        padding: 75px 6%;
+    }
+
+    section {
+        padding: 55px 6%;
+    }
 }
 </style>
 </head>
+
 <body>
 
 <header>
- <div class="logo">🚚 JİYAN NAKLİYAT</div>
- <nav>
-  <a href="#anasayfa">Ana Sayfa</a>
-  <a href="#hizmetler">Hizmetler</a>
-  <a href="#hakkimizda">Hakkımızda</a>
-  <a href="#iletisim">İletişim</a>
- </nav>
+    <div class="logo">🚚 JİYAN NAKLİYAT</div>
+
+    <nav>
+        <a href="#anasayfa">Ana Sayfa</a>
+        <a href="#hizmetler">Hizmetler</a>
+        <a href="#hakkimizda">Hakkımızda</a>
+        <a href="#iletisim">İletişim</a>
+    </nav>
 </header>
 
 <div class="hero" id="anasayfa">
-<img src="IMG-20261109-WA0000.jpg" alt="Jiyan Nakliyat"
-style="width:100%; max-width:750px; height:auto; border-radius:15px; margin:25px auto; display:block;">
- <h1>Güvenle Taşıyoruz!</h1>
- <a href="#iletisim" class="btn">Ücretsiz Teklif Al</a>
- <p>Türkiye'nin her yerine profesyonel nakliyat hizmeti.</p>
- <a href="#iletisim" class="btn">Bizimle İletişime Geçin</a>
+
+    <img src="IMG-20261109-WA0000.jpg"
+    alt="Jiyan Nakliyat"
+    style="width:100%; max-width:750px; height:auto; border-radius:15px; margin:25px auto; display:block;">
+
+    <h1>Güvenle Taşıyoruz!</h1>
+
+    <a href="#iletisim" class="btn">Ücretsiz Teklif Al</a>
+
+    <p>Türkiye'nin her yerine profesyonel nakliyat hizmeti.</p>
+
+    <a href="#iletisim" class="btn">Bizimle İletişime Geçin</a>
+
 </div>
 
 <section class="services" id="hizmetler">
- <h2>Hizmetlerimiz</h2>
- <div class="grid">
-  <div class="card">
-   <div class="icon">🏠</div>
-   <h3>Evden Eve Nakliyat</h3>
-   <p>Eşyalarınızı özenle yeni adresinize taşıyoruz.</p>
-  </div>
-  <div class="card">
-   <div class="icon">🏗️</div>
-   <h3>Asansörlü Nakliyat</h3>
-   <p>Uygun koşullarda asansörlü taşıma hizmeti.</p>
-  </div>
-  <div class="card">
-   <div class="icon">🚛</div>
-   <h3>Şehirler Arası</h3>
-   <p>Türkiye genelinde şehirler arası taşımacılık.</p>
-  </div>
-  <div class="card">
-   <div class="icon">🏢</div>
-   <h3>Ofis Taşımacılığı</h3>
-   <p>İş yeriniz için planlı taşıma çözümleri.</p>
-  </div>
- </div>
+
+    <h2>Hizmetlerimiz</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="icon">🏠</div>
+            <h3>Evden Eve Nakliyat</h3>
+            <p>Eşyalarınızı özenle yeni adresinize taşıyoruz.</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏗️</div>
+            <h3>Asansörlü Nakliyat</h3>
+            <p>Uygun koşullarda asansörlü taşıma hizmeti.</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🚛</div>
+            <h3>Şehirler Arası</h3>
+            <p>Türkiye genelinde şehirler arası taşımacılık.</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏢</div>
+            <h3>Ofis Taşımacılığı</h3>
+            <p>İş yeriniz için planlı taşıma çözümleri.</p>
+        </div>
+
+    </div>
+</section>
+
+<section class="reviews" id="yorumlar">
+
+    <h2>Müşterilerimiz Ne Diyor?</h2>
+
+    <div class="review-grid">
+
+        <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <h3>Müşteri Yorumu</h3>
+            <p>Gerçek müşteri yorumları yakında burada olacak.</p>
+        </div>
+
+        <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <h3>Müşteri Yorumu</h3>
+            <p>Gerçek müşteri yorumları yakında burada olacak.</p>
+        </div>
+
+        <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <h3>Müşteri Yorumu</h3>
+            <p>Gerçek müşteri yorumları yakında burada olacak.</p>
+        </div>
+
+    </div>
 </section>
 
 <section id="hakkimizda">
- <div class="about">
-  <h2>Hakkımızda</h2>
-  <p>Jiyan Nakliyat olarak taşınma sürecinizi kolaylaştırmayı hedefliyoruz. Evden eve, ofis ve şehirler arası taşımacılık hizmetlerimizle Türkiye genelinde yanınızdayız.</p>
- </div>
+
+    <div class="about">
+
+        <h2>Hakkımızda</h2>
+
+        <p>
+        Jiyan Nakliyat olarak taşınma sürecinizi kolaylaştırmayı hedefliyoruz.
+        Evden eve, ofis ve şehirler arası taşımacılık hizmetlerimizle
+        Türkiye genelinde yanınızdayız.
+        </p>
+
+    </div>
 </section>
 
 <div class="banner">
- <h2>Türkiye'nin Her Yerine!</h2>
- <p>Taşınma ihtiyaçlarınız için Jiyan Nakliyat ile iletişime geçin.</p>
- <a href="#iletisim" class="btn">Teklif Alın</a>
+
+    <h2>Türkiye'nin Her Yerine!</h2>
+
+    <p>Taşınma ihtiyaçlarınız için Jiyan Nakliyat ile iletişime geçin.</p>
+
+    <a href="#iletisim" class="btn">Teklif Alın</a>
+
 </div>
 
 <section class="contact" id="iletisim">
- <h2>İletişim</h2>
- <p>📞 Telefon: Yakında eklenecek</p>
- <p>💬 WhatsApp: Yakında eklenecek</p>
- <p>📧 E-posta: <a href="mailto:emingur1334@gmail.com">emingur1334@gmail.com</a></p>
- <p>📍 Hizmet bölgesi: Türkiye geneli</p>
+
+    <h2>İletişim</h2>
+
+    <p>📞 Telefon: 0544 227 47 51</p>
+
+    <p>💬 WhatsApp: 0544 227 47 51</p>
+
+    <p>📧 E-posta:
+        <a href="mailto:emingur1334@gmail.com">
+        emingur1334@gmail.com
+        </a>
+    </p>
+
+    <p>📍 Hizmet bölgesi: Türkiye geneli</p>
+
 </section>
 
 <footer>
- © 2026 Jiyan Nakliyat | Tüm hakları saklıdır.
+    © 2026 Jiyan Nakliyat | Tüm hakları saklıdır.
 </footer>
- <a href="https://wa.me/905442274751?text=Merhaba%2C%20nakliyat%20hizmeti%20hakkinda%20bilgi%20almak%20istiyorum."
-   target="_blank"
-   style="
-   position:fixed;
-   bottom:20px;
-   right:20px;
-   background:#25D366;
-   color:white;
-   padding:15px 22px;
-   border-radius:50px;
-   text-decoration:none;
-   font-weight:bold;
-   z-index:9999;
-   box-shadow:0 4px 12px #0004;">
-   WhatsApp'tan Teklif Al
+
+<a href="https://wa.me/905442274751?text=Merhaba%2C%20nakliyat%20hizmeti%20hakkinda%20bilgi%20almak%20istiyorum."
+target="_blank"
+rel="noopener noreferrer"
+class="floating-btn whatsapp">
+    WhatsApp'tan Teklif Al
 </a>
- <a href="tel:+905442274751"
-   style="
-   position:fixed;
-   bottom:85px;
-   right:20px;
-   background:#1565c0;
-   color:white;
-   padding:15px 22px;
-   border-radius:50px;
-   text-decoration:none;
-   font-weight:bold;
-   z-index:9999;
-   box-shadow:0 4px 12px #0004;">
-   📞 Telefonla Ara
- </a>
+
+<a href="tel:+905442274751" class="floating-btn phone">
+    📞 Telefonla Ara
+</a>
+
 </body>
-    </html>
-    
+</html>
