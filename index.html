@@ -324,43 +324,67 @@ footer {
 </section>
 
 <section class="reviews" id="yorumlar">
-
     <h2>Müşterilerimiz Ne Diyor?</h2>
 
     <div class="review-grid">
-
         <div class="review-card">
-            <div class="review-stars">★★★★★</div>
-            <h3>Müşteri Yorumu</h3>
-            <p>Gerçek müşteri yorumları yakında burada olacak.</p>
+            <div class="review-stars">⭐</div>
+            <h3>Yorumlarınızı Bekliyoruz</h3>
+            <p>Gerçek müşterilerimizin onaylanan yorumları burada yayınlanacaktır.</p>
         </div>
+    </div>
 
-        <div class="review-card">
-            <div class="review-stars">★★★★★</div>
-            <h3>Müşteri Yorumu</h3>
-            <p>Gerçek müşteri yorumları yakında burada olacak.</p>
-        </div>
+    <div class="review-form">
+        <h3>Deneyiminizi Paylaşın</h3>
+        <p>Yorumunuz kontrol edildikten sonra sitemizde yayınlanabilir.</p>
 
-        <div class="review-card">
-            <div class="review-stars">★★★★★</div>
-            <h3>Müşteri Yorumu</h3>
-            <p>Gerçek müşteri yorumları yakında burada olacak.</p>
-        </div>
+        <form id="customerReviewForm">
+            <input id="reviewName" type="text"
+                placeholder="Adınız" maxlength="60" required>
 
+            <select id="reviewRating" required>
+                <option value="">Puanınızı seçin</option>
+                <option value="5 yıldız">★★★★★ - 5 yıldız</option>
+                <option value="4 yıldız">★★★★☆ - 4 yıldız</option>
+                <option value="3 yıldız">★★★☆☆ - 3 yıldız</option>
+                <option value="2 yıldız">★★☆☆☆ - 2 yıldız</option>
+                <option value="1 yıldız">★☆☆☆☆ - 1 yıldız</option>
+            </select>
+
+            <textarea id="reviewText"
+                placeholder="Yorumunuzu yazın"
+                rows="5" maxlength="1000" required></textarea>
+
+            <button type="submit">Yorumu Gönder</button>
+        </form>
     </div>
 </section>
-<div class="review-form">
-    <h3>Sen de Yorum Yap!</h3>
 
-    <p>Müşteri deneyimini bizimle paylaş.</p>
+<script>
+document.getElementById("customerReviewForm")
+.addEventListener("submit", function(e) {
+    e.preventDefault();
 
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeTi1QbCG5eLnxOSnfQKDBAvgNh0XG1TsKN1-calWJi0J1Dog/viewform?usp=publish-editor"
-       target="_blank"
-       rel="noopener noreferrer"
-       class="btn">
-       ⭐ Yorum Yap
-    </a>
-</div>
+    const name = document.getElementById("reviewName").value.trim();
+    const rating = document.getElementById("reviewRating").value;
+    const review = document.getElementById("reviewText").value.trim();
+
+    if (!name || !rating || !review) return;
+
+    const message =
+        "Jiyan Nakliyat müşteri yorumu:\n" +
+        "Ad: " + name + "\n" +
+        "Puan: " + rating + "\n" +
+        "Yorum: " + review;
+
+    window.open(
+        "https://wa.me/905442274751?text=" +
+        encodeURIComponent(message),
+        "_blank"
+    );
+});
+</script>
+    
 <section id="hakkimizda">
 
     <div class="about">
