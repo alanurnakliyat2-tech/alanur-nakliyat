@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Jiyan Nakliyat | Türkiye Geneli</title>
+
 <meta name="description" content="Jiyan Nakliyat ile şehir içi ve şehirler arası evden eve, asansörlü ve ofis taşımacılığı.">
 
 <style>
@@ -15,7 +16,9 @@
     padding: 0;
 }
 
-html { scroll-behavior: smooth; }
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -74,7 +77,9 @@ nav a {
     margin: 8px;
 }
 
-section { padding: 70px 7%; }
+section {
+    padding: 70px 7%;
+}
 
 h2 {
     text-align: center;
@@ -83,7 +88,9 @@ h2 {
     margin-bottom: 35px;
 }
 
-.services { background: #f3f6fb; }
+.services {
+    background: #f3f6fb;
+}
 
 .grid {
     display: grid;
@@ -135,8 +142,13 @@ h2 {
     padding: 65px 7%;
 }
 
-.banner h2 { color: white; }
-.banner p { margin-bottom: 20px; }
+.banner h2 {
+    color: white;
+}
+
+.banner p {
+    margin-bottom: 20px;
+}
 
 .reviews {
     background: #fff7e9;
@@ -154,10 +166,21 @@ h2 {
     padding: 28px 22px;
     border-radius: 14px;
     box-shadow: 0 5px 20px #102a5610;
+    overflow-wrap: anywhere;
 }
 
 .review-card h3 {
     color: #102a56;
+    margin-bottom: 12px;
+}
+
+.review-card p {
+    color: #526176;
+}
+
+.review-stars {
+    color: #f5a623;
+    font-size: 23px;
     margin-bottom: 12px;
 }
 
@@ -192,16 +215,24 @@ h2 {
     cursor: pointer;
 }
 
-.review-card p { color: #526176; }
-
-.review-stars {
-    color: #f5a623;
-    font-size: 23px;
-    margin-bottom: 12px;
+.review-form button:disabled {
+    opacity: 0.6;
+    cursor: wait;
 }
 
-.contact { text-align: center; }
-.contact p { margin: 12px; color: #526176; }
+#reviewStatus {
+    margin-top: 12px;
+    color: #102a56;
+}
+
+.contact {
+    text-align: center;
+}
+
+.contact p {
+    margin: 12px;
+    color: #526176;
+}
 
 footer {
     background: #091b37;
@@ -238,10 +269,17 @@ footer {
         text-align: center;
     }
 
-    nav a { margin: 0 8px; }
+    nav a {
+        margin: 0 8px;
+    }
 
-    .hero { padding: 75px 6%; }
-    section { padding: 55px 6%; }
+    .hero {
+        padding: 75px 6%;
+    }
+
+    section {
+        padding: 55px 6%;
+    }
 }
 </style>
 </head>
@@ -317,83 +355,246 @@ footer {
     </div>
 </section>
 
+<!-- MÜŞTERİ YORUMLARI -->
+
 <section class="reviews" id="yorumlar">
+
     <h2>Müşterilerimiz Ne Diyor?</h2>
 
-    <div class="review-grid">
-        <div class="review-card">
-            <div class="review-stars">⭐</div>
-            <h3>Yorumlarınızı Bekliyoruz</h3>
-            <p>Gerçek müşterilerimizin onaylanan yorumları burada yayınlanacaktır.</p>
-        </div>
+    <div class="review-grid" id="reviewList">
+        <p>Yorumlar yükleniyor...</p>
     </div>
 
     <div class="review-form">
+
         <h3>Deneyiminizi Paylaşın</h3>
-        <p>Yorumunuz kontrol edildikten sonra sitemizde yayınlanabilir.</p>
+        <p>Yorumunuz gönderildiğinde otomatik yayınlanacaktır.</p>
 
         <form id="customerReviewForm">
-            <input id="reviewName" type="text"
-                placeholder="Adınız" maxlength="60" required>
+
+            <input id="reviewName"
+                type="text"
+                placeholder="Adınız"
+                maxlength="60"
+                required>
 
             <select id="reviewRating" required>
                 <option value="">Puanınızı seçin</option>
-                <option value="5 yıldız">★★★★★ - 5 yıldız</option>
-                <option value="4 yıldız">★★★★☆ - 4 yıldız</option>
-                <option value="3 yıldız">★★★☆☆ - 3 yıldız</option>
-                <option value="2 yıldız">★★☆☆☆ - 2 yıldız</option>
-                <option value="1 yıldız">★☆☆☆☆ - 1 yıldız</option>
+                <option value="5">★★★★★ - 5 yıldız</option>
+                <option value="4">★★★★☆ - 4 yıldız</option>
+                <option value="3">★★★☆☆ - 3 yıldız</option>
+                <option value="2">★★☆☆☆ - 2 yıldız</option>
+                <option value="1">★☆☆☆☆ - 1 yıldız</option>
             </select>
 
             <textarea id="reviewText"
                 placeholder="Yorumunuzu yazın"
-                rows="5" maxlength="1000" required></textarea>
+                rows="5"
+                maxlength="1000"
+                required></textarea>
 
             <button type="submit">Yorumu Gönder</button>
+
+            <p id="reviewStatus" aria-live="polite"></p>
+
         </form>
     </div>
+
 </section>
 
+<!-- SUPABASE BAĞLANTISI -->
+
 <script>
+
+const SUPABASE_URL =
+"https://brdlgjtqbkbvtmwzuivv.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_yiTrfYdDksBQO-9FCixaBQ_5AVDnIta";
+
+const API_URL = SUPABASE_URL + "/rest/v1/reviews";
+
+const headers = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": "Bearer " + SUPABASE_KEY,
+    "Content-Type": "application/json"
+};
+
+// YORUMLARI YÜKLE
+
+async function loadReviews() {
+
+    const list = document.getElementById("reviewList");
+
+    try {
+
+        const response = await fetch(
+            API_URL + "?select=*&order=created_at.desc",
+            {
+                headers: headers,
+                cache: "no-store"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Yorumlar yüklenemedi.");
+        }
+
+        const reviews = await response.json();
+
+        list.replaceChildren();
+
+        if (reviews.length === 0) {
+            const empty = document.createElement("p");
+            empty.textContent =
+            "Henüz yorum yapılmamış. İlk yorumu siz yazın!";
+            list.appendChild(empty);
+            return;
+        }
+
+        reviews.forEach(item => {
+
+            const card = document.createElement("div");
+            card.className = "review-card";
+
+            const stars = document.createElement("div");
+            stars.className = "review-stars";
+            stars.textContent = "⭐".repeat(item.rating);
+
+            const name = document.createElement("h3");
+            name.textContent = item.name;
+
+            const comment = document.createElement("p");
+            comment.textContent = item.review;
+
+            card.append(stars, name, comment);
+
+            list.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        list.textContent =
+        "Yorumlar şu anda yüklenemiyor. Lütfen daha sonra tekrar deneyin.";
+
+        console.error(error);
+
+    }
+}
+
+// YORUM GÖNDER
+
 document.getElementById("customerReviewForm")
-.addEventListener("submit", function(e) {
+.addEventListener("submit", async function(e) {
+
     e.preventDefault();
 
-    const name = document.getElementById("reviewName").value.trim();
-    const rating = document.getElementById("reviewRating").value;
-    const review = document.getElementById("reviewText").value.trim();
+    const name =
+    document.getElementById("reviewName").value.trim();
 
-    if (!name || !rating || !review) return;
+    const rating =
+    Number(document.getElementById("reviewRating").value);
 
-    const message =
-        "Jiyan Nakliyat müşteri yorumu:\n" +
-        "Ad: " + name + "\n" +
-        "Puan: " + rating + "\n" +
-        "Yorum: " + review;
+    const review =
+    document.getElementById("reviewText").value.trim();
 
-    window.open(
-        "https://wa.me/905442274751?text=" +
-        encodeURIComponent(message),
-        "_blank"
-    );
+    const status =
+    document.getElementById("reviewStatus");
+
+    const button = this.querySelector("button");
+
+    if (
+        !name ||
+        !review ||
+        !Number.isInteger(rating) ||
+        rating < 1 ||
+        rating > 5 ||
+        name.length > 60 ||
+        review.length > 1000
+    ) {
+        status.textContent = "Lütfen bilgilerinizi kontrol edin.";
+        return;
+    }
+
+    button.disabled = true;
+    status.textContent = "Yorumunuz gönderiliyor...";
+
+    try {
+
+        const response = await fetch(API_URL, {
+
+            method: "POST",
+
+            headers: {
+                ...headers,
+                "Prefer": "return=minimal"
+            },
+
+            body: JSON.stringify({
+                name: name,
+                rating: rating,
+                review: review
+            })
+
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+
+        status.textContent =
+        "Yorumunuz yayınlandı! Teşekkür ederiz.";
+
+        this.reset();
+
+        await loadReviews();
+
+    } catch (error) {
+
+        status.textContent =
+        "Yorum gönderilemedi. Lütfen tekrar deneyin.";
+
+        console.error(error);
+
+    } finally {
+
+        button.disabled = false;
+
+    }
+
 });
+
+// SAYFA AÇILINCA YORUMLARI GETİR
+
+loadReviews();
+
 </script>
 
 <section id="hakkimizda">
+
     <div class="about">
+
         <h2>Hakkımızda</h2>
+
         <p>
         Jiyan Nakliyat olarak taşınma sürecinizi kolaylaştırmayı hedefliyoruz.
         Şehir içi, şehirler arası, evden eve ve ofis taşımacılığı
         hizmetlerimizle Türkiye genelinde yanınızdayız.
         </p>
+
     </div>
+
 </section>
 
 <div class="banner">
+
     <h2>Şehir İçi ve Şehirler Arası!</h2>
+
     <p>Taşınma ihtiyaçlarınız için Jiyan Nakliyat ile iletişime geçin.</p>
+
     <a href="#iletisim" class="btn">Teklif Alın</a>
+
 </div>
 
 <section class="contact" id="iletisim">
@@ -401,6 +602,7 @@ document.getElementById("customerReviewForm")
     <h2>İletişim</h2>
 
     <p>📞 Telefon: 0544 227 47 51</p>
+
     <p>💬 WhatsApp: 0544 227 47 51</p>
 
     <p>📧 E-posta:
@@ -421,7 +623,9 @@ document.getElementById("customerReviewForm")
 target="_blank"
 rel="noopener noreferrer"
 class="floating-btn whatsapp">
+
     WhatsApp'tan Teklif Al
+
 </a>
 
 <a href="tel:+905442274751" class="floating-btn phone">
