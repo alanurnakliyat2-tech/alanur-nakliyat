@@ -155,18 +155,32 @@ h2 {
     text-align: center;
 }
 
+/* YORUM KAYDIRMA ALANI */
+
 .review-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: flex;
     gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 5px 2px 15px;
+}
+
+.review-grid::-webkit-scrollbar {
+    display: none;
 }
 
 .review-card {
+    flex: 0 0 100%;
+    min-width: 0;
     background: white;
-    padding: 28px 22px;
+    padding: 32px 22px;
     border-radius: 14px;
     box-shadow: 0 5px 20px #102a5610;
     overflow-wrap: anywhere;
+    scroll-snap-align: center;
 }
 
 .review-card h3 {
@@ -182,6 +196,47 @@ h2 {
     color: #f5a623;
     font-size: 23px;
     margin-bottom: 12px;
+}
+
+.review-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 12px 0 35px;
+}
+
+.review-arrow {
+    background: #102a56;
+    color: white;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.review-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+}
+
+.review-dot {
+    width: 10px;
+    height: 10px;
+    border: none;
+    border-radius: 50%;
+    background: #c7cdd7;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.review-dot.active {
+    background: #102a56;
+    transform: scale(1.3);
 }
 
 .review-form {
@@ -280,6 +335,10 @@ footer {
     section {
         padding: 55px 6%;
     }
+
+    .review-card {
+        padding: 27px 18px;
+    }
 }
 </style>
 </head>
@@ -349,14 +408,20 @@ footer {
     </div>
 </section>
 
-<!-- MÜŞTERİ YORUMLARI -->
-
 <section class="reviews" id="yorumlar">
 
     <h2>Müşterilerimiz Ne Diyor?</h2>
 
-    <div class="review-grid" id="reviewList">
+    <div class="review-grid" id="reviewList" aria-label="Müşteri yorumları">
         <p>Yorumlar yükleniyor...</p>
+    </div>
+
+    <div class="review-controls" id="reviewControls" hidden>
+        <button class="review-arrow" id="previousReview" aria-label="Önceki yorum">‹</button>
+
+        <div class="review-dots" id="reviewDots"></div>
+
+        <button class="review-arrow" id="nextReview" aria-label="Sonraki yorum">›</button>
     </div>
 
     <div class="review-form">
@@ -396,8 +461,6 @@ footer {
 
 </section>
 
-<!-- SUPABASE BAĞLANTISI -->
-
 <script>
 
 const SUPABASE_URL =
@@ -414,11 +477,67 @@ const headers = {
     "Content-Type": "application/json"
 };
 
+const list = document.getElementById("reviewList");
+const controls = document.getElementById("reviewControls");
+const dots = document.getElementById("reviewDots");
+
+let currentReview = 0;
+let reviewTimer = null;
+let reviewItems = [];
+
+// YORUM KONUMUNU DEĞİŞTİR
+
+function goToReview(index) {
+
+    if (reviewItems.length <= 1) return;
+
+    currentReview =
+        (index + reviewItems.length) % reviewItems.length;
+
+    const card = reviewItems[currentReview];
+
+    list.scrollTo({
+        left: card.offsetLeft - list.offsetLeft,
+        behavior: "smooth"
+    });
+
+    updateReviewDots();
+}
+
+// NOKTALARI GÜNCELLE
+
+function updateReviewDots() {
+
+    const allDots = dots.querySelectorAll(".review-dot");
+
+    allDots.forEach((dot, index) => {
+
+        dot.classList.toggle("active", index === currentReview);
+
+        dot.setAttribute(
+            "aria-current",
+            index === currentReview ? "true" : "false"
+        );
+
+    });
+}
+
+// OTOMATİK GEÇİŞ
+
+function startReviewTimer() {
+
+    clearInterval(reviewTimer);
+
+    if (reviewItems.length <= 1) return;
+
+    reviewTimer = setInterval(() => {
+        goToReview(currentReview + 1);
+    }, 4000);
+}
+
 // YORUMLARI YÜKLE
 
 async function loadReviews() {
-
-    const list = document.getElementById("reviewList");
 
     try {
 
@@ -437,23 +556,34 @@ async function loadReviews() {
         const reviews = await response.json();
 
         list.replaceChildren();
+        dots.replaceChildren();
+
+        reviewItems = [];
+        currentReview = 0;
 
         if (reviews.length === 0) {
+
             const empty = document.createElement("p");
+
             empty.textContent =
             "Henüz yorum yapılmamış. İlk yorumu siz yazın!";
+
             list.appendChild(empty);
+            controls.hidden = true;
+
             return;
         }
 
-        reviews.forEach(item => {
+        reviews.forEach((item, index) => {
 
             const card = document.createElement("div");
             card.className = "review-card";
 
             const stars = document.createElement("div");
             stars.className = "review-stars";
-            stars.textContent = "⭐".repeat(item.rating);
+            stars.textContent = "⭐".repeat(
+                Math.max(0, Math.min(5, Number(item.rating) || 0))
+            );
 
             const name = document.createElement("h3");
             name.textContent = item.name;
@@ -462,20 +592,110 @@ async function loadReviews() {
             comment.textContent = item.review;
 
             card.append(stars, name, comment);
-
             list.appendChild(card);
 
+            reviewItems.push(card);
+
+            const dot = document.createElement("button");
+
+            dot.className = "review-dot";
+            dot.type = "button";
+            dot.setAttribute("aria-label", (index + 1) + ". yorumu göster");
+
+            dot.addEventListener("click", () => {
+                goToReview(index);
+                startReviewTimer();
+            });
+
+            dots.appendChild(dot);
+
         });
+
+        controls.hidden = reviewItems.length <= 1;
+
+        updateReviewDots();
+        startReviewTimer();
 
     } catch (error) {
 
         list.textContent =
         "Yorumlar şu anda yüklenemiyor. Lütfen daha sonra tekrar deneyin.";
 
+        controls.hidden = true;
+
         console.error(error);
 
     }
+
 }
+
+// ÖNCEKİ VE SONRAKİ BUTONLARI
+
+document.getElementById("previousReview")
+.addEventListener("click", () => {
+
+    goToReview(currentReview - 1);
+    startReviewTimer();
+
+});
+
+document.getElementById("nextReview")
+.addEventListener("click", () => {
+
+    goToReview(currentReview + 1);
+    startReviewTimer();
+
+});
+
+// PARMAKLA KAYDIRMA SONRASI AKTİF NOKTAYI BUL
+
+let scrollTimeout;
+
+list.addEventListener("scroll", () => {
+
+    clearTimeout(scrollTimeout);
+
+    scrollTimeout = setTimeout(() => {
+
+        if (reviewItems.length <= 1) return;
+
+        const center = list.scrollLeft + list.clientWidth / 2;
+
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        reviewItems.forEach((card, index) => {
+
+            const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+            const distance = Math.abs(center - cardCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+
+        });
+
+        currentReview = closestIndex;
+        updateReviewDots();
+
+    }, 100);
+
+});
+
+// YORUM ALANINA DOKUNULDUĞUNDA OTOMATİĞİ DURDUR
+
+list.addEventListener("pointerdown", () => {
+    clearInterval(reviewTimer);
+});
+
+list.addEventListener("pointerup", () => {
+    startReviewTimer();
+});
+
+list.addEventListener("pointercancel", () => {
+    startReviewTimer();
+});
 
 // YORUM GÖNDER
 
@@ -559,8 +779,6 @@ document.getElementById("customerReviewForm")
 
 });
 
-// SAYFA AÇILINCA YORUMLARI GETİR
-
 loadReviews();
 
 </script>
@@ -627,4 +845,5 @@ class="floating-btn whatsapp">
 </a>
 
 </body>
-</html>
+                    </html>
+    
